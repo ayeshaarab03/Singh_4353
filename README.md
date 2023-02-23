@@ -2,4 +2,4 @@
 
 Login/Registration - Ayesha Arab
 
-Profile Management - Nauman Akbani (profilemanagement.html && style.css)
+Profile Management - Nauman Akbani (profilemanagement.html and style.css)
