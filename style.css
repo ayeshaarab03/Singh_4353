@@ -1,0 +1,46 @@
+body {
+  margin-top: 70px;
+  background-color: #f2f6fc;
+  color: #69707a;
+  margin-left: 300px;
+}
+
+.card {
+  box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+}
+
+.card .card-header {
+  font-weight: 500;
+}
+
+.card-header {
+  padding: 1rem 1.35rem;
+  margin-bottom: 0;
+  background-color: rgba(33, 40, 50, 0.03);
+  border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+}
+
+input:invalid {
+  color: red;
+}
+
+.required-field::before {
+  content: " *";
+  color: red;
+}
+
+.required-field {
+  padding-top: 10px;
+}
+
+.not-required {
+  padding-top: 10px;
+}
+
+.btn-primary {
+  margin-top: 30px;
+}
+
+.required-field .state {
+  padding-top: 10px;
+}
