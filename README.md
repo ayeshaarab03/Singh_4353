@@ -2,4 +2,4 @@
 
 Login/Registration - Ayesha Arab (registration.html and registration.css)
 
-Profile Management - Nauman Akbani (profilemanagement.html and style.css)
+Profile Management - Nauman Akbani (profilemanagement.html and profilemanagement.css)
