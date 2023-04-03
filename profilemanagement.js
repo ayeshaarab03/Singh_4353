@@ -1,6 +1,5 @@
 // HAVE TO COMMENT THESE OUT TO TEST THE CODE WITH INPUTS FROM profilemanagement.js
-
-// const $ = require('jquery');
+//const $ = require('jquery');
 //$(document).ready(function() {
     // When the "Save changes" button is clicked, perform the following actions
     //$("button").click(function() {
@@ -64,23 +63,36 @@
         }
         return true;
       }
-      
-      // validateFullName(fullName);
-      // validateAddress1(address1);
-      // validateAddress2(address2);
-      // validateCity(city);
-      // validateZipCode(zipCode);
 
-      function submit(isValid){
+      const mysql = require('mysql');
+
+      function submit(isValid, fullName, address1, address2, city, state, zipCode){
         if(isValid){
-          // If information is valid, display a success message
-          alert("Profile saved successfully!");
-          return true;
+          // Connect to the database
+          const connection = mysql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            password: 'password',
+            database: 'profile_db'
+          });
+        
+          // Insert the profile information into the database
+          const query = `INSERT INTO ClientInformation VALUES ('${fullName}', '${address1}', '${address2}', '${city}', '${state}', '${zipCode}')`;
+          connection.query(query, function (error, results, fields) {
+            if (error) {
+              console.error(error);
+              alert("An error occurred while saving your profile");
+              return false;
+            }
+            // If the query was successful, display a success message
+            alert("Profile saved successfully!");
+            return true;
+          });
+          // Close the database connection
+          connection.end();
         }
         return false;
       }
-
-      
 
       module.exports = {
         validateFullName,
@@ -90,7 +102,18 @@
         validateZipCode,
         submit
       };
+
+
+      // validateFullName(fullName);
+      // validateAddress1(address1);
+      // validateAddress2(address2);
+      // validateCity(city);
+      // validateZipCode(zipCode);
+      // submit(isValid);
+
       
-      
+    
+  //}); 
+//});
 
   
