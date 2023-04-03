@@ -1,8 +1,33 @@
-addHistory("01/01/2022", "500", "123 Main St, Anytown, USA", "01/15/2022", "$2.00", "$1000.00");
-    
-addHistory("02/01/2022", "750", "456 Elm St, Anytown, USA", "02/15/2022", "$2.10", "$1575.00");
+const mysql = require('mysql');
 
-addHistory("03/01/2022", "1000", "789 Oak St, Anytown, USA", "03/15/2022", "$2.20", "$2200.00");
+// Set up database connection
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'mydb'
+});
+
+// Connect to database
+connection.connect((err) => {
+  if (err) throw err;
+  console.log('Connected to database');
+});
+
+// Select history data from table
+const sql = 'SELECT date, GR, DA, DD, SPG, T FROM history';
+connection.query(sql, (err, results, fields) => {
+  if (err) throw err;
+
+  // Iterate over results and call addHistory for each row
+  results.forEach((row) => {
+    const { date, GR, DA, DD, SPG, T } = row;
+    addHistory(date, GR, DA, DD, SPG, T);
+  });
+});
+
+// Close database connection
+connection.end();
 
 function addHistory(date, GR, DA, DD, SPG, T) {
 	let row = document.getElementById("History").insertRow(-1);
