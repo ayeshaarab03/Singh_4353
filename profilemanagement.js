@@ -1,28 +1,22 @@
-// HAVE TO COMMENT THESE OUT TO TEST THE CODE WITH INPUTS FROM profilemanagement.js
-//const $ = require('jquery');
-//$(document).ready(function() {
-    // When the "Save changes" button is clicked, perform the following actions
-    //$("button").click(function() {
-      // Get the values of the input fields
-      // var fullName = $("#inputUsername").val();
-      // var address1 = $("#inputAddress1").val();
-      // var address2 = $("#inputAddress2").val();
-      // var city = $("#inputCity").val();
-      // var state = $("select[name='State']").val();
-      // var zipCode = $("#inputZipCode").val();
-  
-      // TODO: Perform any additional validation or processing of the input values here
+$(document).ready(function() {
+    $("button").click(function() {
+      const fullName = document.getElementById("inputUsername").value;
+      const address1 = document.getElementById("inputAddress1").value;
+      const address2 = document.getElementById("inputAddress2").value;
+      const city = document.getElementById("inputCity").value;
+      const state = $("select[name='State']").val();
+      const zipCode = document.getElementById("inputZipCode").value;
+
       const fullNameLength = 50;
       const addressLength = 100;
       const zipCodeMinLength = 5;
       const zipCodeMaxLength = 9;
 
-      isValid = true;
+      const errors = [];
 
       function validateFullName(fullName){
         if (fullName.length < fullNameLength) {
-          alert("Full Name is required and must be at least 50 characters");
-          isValid = false;
+          errors.push("Full Name is required and must be at least 50 characters");
           return false;
         }
         return true;
@@ -30,8 +24,7 @@
       
       function validateAddress1(address1){
         if (address1.length < addressLength) {
-          alert("Address 1 is required and must be at least 100 characters");
-          isValid = false;
+          errors.push("Address 1 is required and must be at least 100 characters");
           return false;
         }
         return true;
@@ -39,8 +32,7 @@
 
       function validateAddress2(address2){
         if(address2.length > 0 && address2.length < addressLength){    
-          alert("Address 2 must be at least 100 characters, if applicable");
-          isValid = false;
+          errors.push("Address 2 must be at least 100 characters, if applicable");
           return false;
         }
         return true;
@@ -48,8 +40,7 @@
 
       function validateCity(city){
         if (city.length < addressLength) {
-          alert("City is required and must be at least 100 characters");
-          isValid = false;
+          errors.push("City is required and must be at least 100 characters");
           return false;
         }
         return true;
@@ -57,63 +48,51 @@
       
       function validateZipCode(zipCode){
         if (zipCode.length < zipCodeMinLength || zipCode.length > zipCodeMaxLength) {
-          alert("Zip Code is required and must be between 5 and 9 characters");
-          isValid = false;
+          errors.push("Zip Code is required and must be between 5 and 9 characters");
           return false;
         }
         return true;
       }
-
-      const mysql = require('mysql');
-
-      function submit(isValid, fullName, address1, address2, city, state, zipCode){
-        if(isValid){
-          // Connect to the database
-          const connection = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: 'password',
-            database: 'profile_db'
-          });
-        
-          // Insert the profile information into the database
-          const query = `INSERT INTO ClientInformation VALUES ('${fullName}', '${address1}', '${address2}', '${city}', '${state}', '${zipCode}')`;
-          connection.query(query, function (error, results, fields) {
-            if (error) {
-              console.error(error);
-              alert("An error occurred while saving your profile");
-              return false;
-            }
-            // If the query was successful, display a success message
-            alert("Profile saved successfully!");
-            return true;
-          });
-          // Close the database connection
-          connection.end();
-        }
-        return false;
-      }
-
-      module.exports = {
-        validateFullName,
-        validateAddress1,
-        validateAddress2,
-        validateCity,
-        validateZipCode,
-        submit
-      };
-
-
-      // validateFullName(fullName);
-      // validateAddress1(address1);
-      // validateAddress2(address2);
-      // validateCity(city);
-      // validateZipCode(zipCode);
-      // submit(isValid);
-
       
-    
-  //}); 
-//});
+      validateFullName(fullName);
+      validateAddress1(address1);
+      validateAddress2(address2);
+      validateCity(city);
+      validateZipCode(zipCode);
 
-  
+      if (errors.length > 0)
+        alert(errors.join('\n'));
+      
+      else{
+
+        
+        const mysql = require('mysql');
+
+        const connection = mysql.createConnection({
+          host: 'localhost',
+          port: '3306',
+          user: 'root',
+          password: 'root',
+          database: 'db'
+        });
+
+        const sql = 'INSERT INTO clientinformation (Full_Name, Address1, Address2, City, State, Zip_Code) VALUES (?, ?, ?, ?, ?, ?)';
+        const values = [fullName, address1, address2, city, state, zipCode];
+
+        connection.query(sql, values, function(error, results, fields) {
+          if (error) throw error;
+          alert("Profile saved successfully!")
+        });
+
+        connection.end();
+      }
+    });
+});
+
+// module.exports = {
+//   validateFullName,
+//   validateAddress1,
+//   validateAddress2,
+//   validateCity,
+//   validateZipCode,
+// };
