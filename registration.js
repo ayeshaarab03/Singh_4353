@@ -1,72 +1,83 @@
-isValid = true;
-
-      function valididateEmail(email){
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        isValid = emailRegex.test(email);
-        return isValid;    
-      }
+$(document).ready(function() {
+  $('#registration-form').submit(function(event) {
       
-      function validatePassword(password){
-        if (password.length > 0) {
-          isValid = true;
+      const email = document.getElementById("email").value;
+      const password1 = document.getElementById("password1").value;
+      const password2 = document.getElementById("password2").value;
+
+      const errors = [];
+
+      function validatePassword(password1){
+        if (password1.length == 0) {
+          errors.push("Password is required");
+          return false;
         }
-        else
-            isValid = false;
-        return isValid;
+        return true;
       }
 
-      function validateConfirmPassword(password1, password2){
-        if(password1 != password2){    
-          isValid = false;
+      function confirmPassword(password1, password2){
+        if(password1 != password2){   
+          errors.push("Passwords do not match");
+          return false;
         }
-        else
-            isValid = true;
-        return isValid;
+        return true;
       }
 
       function encrypt(password){
-        const password = 'my_password';
         const hash = crypto.subtle.digest('SHA-256', new TextEncoder().encode(password));
-
-        hash.then(function(result) {
-          const hashed_password = Array.from(new Uint8Array(result)).map(b => b.toString(16).padStart(2, '0')).join('');
+        return hash.then(function(result) {
+          return Array.from(new Uint8Array(result)).map(b => b.toString(16).padStart(2, '0')).join('');
         });
-        return hashed_password;
       }
 
-      const mysql = require('mysql');
+      validatePassword(password1);
+      confirmPassword(password1, password2);
 
-      function submit(isValid, email, password){
-        if(isValid){
-          // Connect to the database
+      encrypt(password1).then(function(encrypted) {
+        if (errors.length > 0) {
+          alert(errors.join('\n'));
+          event.preventDefault();
+        } else {
+          const data = {
+            Email: email,
+            Password: encrypted,
+            
+          };
+          alert("Profile created successfully! Please log in.")
+          
+          $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/registration.html',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: (response) => {
+              console.log(response);
+            },
+            error: (xhr, status, error) => {
+              console.log(xhr.responseText);
+              alert("Error");
+            }
+          });
+          const mysql = require('mysql');
+
           const connection = mysql.createConnection({
             host: 'localhost',
+            port: '3306',
             user: 'root',
-            password: 'password',
+            password: 'root',
             database: 'db'
           });
-        
-          // Insert the profile information into the database
-          const query = `INSERT INTO UserCredentials VALUES ('${email}', '${encrypt(password)}')`;
-          connection.query(query, function (error, results, fields) {
-            if (error) {
-              console.error(error);
-              alert("An error occurred while saving your profile");
-              return false;
-            }
-            // If the query was successful, display a success message
-            alert("Profile saved successfully!");
-            return true;
+
+          const sql = 'INSERT INTO clientinformation (Email, Password) VALUES (?, ?)';
+          const values = [email, password];
+
+          connection.query(sql, values, function(error, results, fields) {
+            if (error) throw error;
+            alert("Profile saved successfully!")
           });
-          // Close the database connection
+
           connection.end();
         }
-        return false;
-      }
-
-      module.exports = {
-        valididateEmail,
-        validatePassword,
-        validateConfirmPassword,
-        submit
-      };
+      });
+  });
+});
