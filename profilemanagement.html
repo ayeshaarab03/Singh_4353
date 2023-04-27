@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!--<link href="style.css" rel="stylesheet">-->
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
+    <!--<script src="profilemanagement.js"></script>-->
     <script src="profilemanagement.js"></script>
-    <script src="profilemanagement.test.js"></script>
+
     
 </head>
 
@@ -31,22 +31,22 @@
 
                             <div class="required-field">
                                 <label class="small mb-1" for="FullName">Full Name</label>
-                                <input class="form-control" id="inputUsername" type="text" placeholder="Enter your full name" minlength="50" required>
+                                <input class="form-control" id="inputUsername" type="text" placeholder="Enter your full name" maxlength="50" required>
                             </div>
 
                             <div class="required-field">
                                 <label class="small mb-1" for="Address1">Address 1</label>
-                                <input class="form-control" id="inputAddress1" type="text" placeholder="Enter your Address" minlength="100" required>
+                                <input class="form-control" id="inputAddress1" type="text" placeholder="Enter your Address" maxlength="100" required>
                             </div>
 
                             <div class="not-required">
                                 <label class="small mb-2" for="Address2">Address 2</label>
-                                <input class="form-control" id="inputAddress2" type="text" placeholder="Enter your Address" minlength="100">
+                                <input class="form-control" id="inputAddress2" type="text" placeholder="Enter your Address" maxlength="100">
                             </div>
 
                             <div class="required-field">
                                 <label class="small mb-1" for="inputCity">City</label>
-                                <input class="form-control" id="inputCity" type="text" placeholder="Enter your City" minlength="100" required>
+                                <input class="form-control" id="inputCity" type="text" placeholder="Enter your City" maxlength="100" required>
                             </div>
 
                             <div class="required-field">
