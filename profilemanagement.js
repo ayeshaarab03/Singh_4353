@@ -15,32 +15,32 @@ $(document).ready(function() {
       const errors = [];
 
       function validateFullName(fullName){
-        if (fullName.length < fullNameLength) {
-          errors.push("Full Name is required and must be at least 50 characters");
+        if (fullName.length > fullNameLength || fullName.length == 0) {
+          errors.push("Full Name is required and must be no more than 50 characters");
           return false;
         }
         return true;
       }
       
       function validateAddress1(address1){
-        if (address1.length < addressLength) {
-          errors.push("Address 1 is required and must be at least 100 characters");
+        if (address1.length > addressLength || address1.length == 0) {
+          errors.push("Address 1 is required and must be no more than 100 characters");
           return false;
         }
         return true;
       }
 
       function validateAddress2(address2){
-        if(address2.length > 0 && address2.length < addressLength){    
-          errors.push("Address 2 must be at least 100 characters, if applicable");
+        if(address2.length > addressLength){    
+          errors.push("Address 2 must be no more than 100 characters, if applicable");
           return false;
         }
         return true;
       }
 
       function validateCity(city){
-        if (city.length < addressLength) {
-          errors.push("City is required and must be at least 100 characters");
+        if (city.length > addressLength || city.length == 0) {
+          errors.push("City is required and must be no more than 100 characters");
           return false;
         }
         return true;
@@ -65,7 +65,32 @@ $(document).ready(function() {
       
       else{
 
-        
+        const data = {
+          fullName: fullName,
+          address1: address1,
+          address2: address2,
+          city: city,
+          state: state,
+          zipCode: zipCode
+        };
+
+        alert("Profile information saved!");
+        window.location = 'menu.html';
+    
+        $.ajax({
+          type: 'POST',
+          url:"post.php",
+          //url: 'http://localhost:8080/profilemanagement.html',
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+          success: (response) => {
+            console.log(response);
+          },
+          error: (xhr, status, error) => {
+            console.log(xhr.responseText);
+            alert("Error");
+          }
+        });
         const mysql = require('mysql');
 
         const connection = mysql.createConnection({
