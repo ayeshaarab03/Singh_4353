@@ -4,19 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <link href="registration.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="registration.js"></script>
-    <script src="registration.test.js></script>
 </head>
 <body>
     <div class="container">
         <input type="checkbox" id="check">
         <div class="login form">
             <header>Login</header>
-            <form action="#">
-                <input type="email" placeholder="Enter your email" required>
-                <input type="password" placeholder="Enter your password" required>
-                <a href="#">Forgot password?</a>
-                <input type="button" class="button" value="Login">
+            <form action = "menu.html">
+                <input type="email" placeholder="Enter your email" id = "email" required>
+                <input type="password" placeholder="Enter your password" id = "password" required>
+                
+                <input id="submit" value="Login" type="submit" href="profilemanagement.html" name="submit1">
             </form>
             <div class="signup">
                 <span class="signup">
@@ -27,11 +27,11 @@
         </div>
         <div class="registration form">
             <header>Sign Up</header>
-            <form action="#">
+            <form id="registration-form">
                 <input type="email" placeholder="Enter your email" required>
-                <input type="password" placeholder="Create a password" required>
-                <input type="password" placeholder="Confirm your password" required>
-                <input type="button" class="button" value="Signup">
+                <input type="password" id = "password1" placeholder="Create a password" required>
+                <input type="password" id = "password2" placeholder="Confirm your password" required>
+                <input id="submit" value="Register" type="submit">
             </form>
             <div class="signup">
                 <span class="signup">
@@ -43,4 +43,3 @@
     </div>
 </body>
 </html>
-
