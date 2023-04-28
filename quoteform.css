@@ -1,0 +1,10 @@
+/* .required-field:before {
+    content: "*";
+    color: red;
+    margin-left: 6px;
+    font-size: 20px;
+} */
+
+body {
+    margin-right: 100px;
+}
